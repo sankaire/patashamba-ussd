@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { redis } from "./redis.js";
 import axios from "axios";
-
+import { config } from "dotenv";
+config();
 export default async (req: Request, res: Response) => {
   try {
     const data = req.body;
@@ -31,8 +32,7 @@ export default async (req: Request, res: Response) => {
       state[questions[currentStep]] = true;
       await redis.set(phoneNumber, JSON.stringify(state));
     } else {
-      const externalApiUrl =
-        "https://patashamba-api-production.up.railway.app/api/v1/ussd";
+      const externalApiUrl = process.env.API_URL as string;
       const text_data = data.text.split("*");
       console.log(text_data);
       const landData = {
@@ -55,7 +55,6 @@ export default async (req: Request, res: Response) => {
     res.send(response);
   } catch (err) {
     const error = err as Error;
-    console.log(err);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
