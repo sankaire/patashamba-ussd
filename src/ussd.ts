@@ -10,18 +10,20 @@ export default async (req: Request, res: Response) => {
     const state = stateCache ? JSON.parse(stateCache) : {};
     let response = "";
     const questions = [
-      "Ingiza jina lako",
-      "Ingiza ukubwa wa ardhi",
+      `Karibu kwenye Patashamba! Hii ni jukwaa ambalo linakusudia kuunganisha wapangaji na watu wanaokodisha ardhi
+
+      Ingiza jina lako`,
+      "Ingiza ukubwa wa ardhi(hectares)",
       "Ingiza maelezo ya ardhi",
-      `Je, ardhi imezungushiwa uzio?
+      `Je, ardhi imezungushiwa uzio(fence)?
       (1) Ndiyo
       (2) Hapana`,
-      `Je, ardhi ina hati?
+      `Je, ardhi ina hati(tittle)?
       (1) Ndiyo
       (2) Hapana`,
-      "Malipo ya kila mwezi yapi?",
+      "Malipo ya kila mwezi yapi?(KSH)",
       "Ardhi inapatikana katika kaunti gani?",
-      "Ardhi inapatikana katika kata gani?",
+      "Ardhi inapatikana katika kata gani?(ward)",
     ];
     const currentStep = Object.keys(state).length;
     if (currentStep < questions.length) {
@@ -46,7 +48,7 @@ export default async (req: Request, res: Response) => {
         ward: text_data[7],
       };
       await axios.post(externalApiUrl, landData);
-      response = `END Thank you for leasing with PataShamba`;
+      response = `END Asante kwa kukodisha na PataShamba.`;
       await redis.del(phoneNumber);
     }
     res.set("Content-Type: text/plain");
