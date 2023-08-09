@@ -29,7 +29,8 @@ export default async (req: Request, res: Response) => {
       state[questions[currentStep]] = true;
       await redis.set(phoneNumber, JSON.stringify(state));
     } else {
-      const externalApiUrl = "https://silver-stars-burn.loca.lt/api/v1/ussd";
+      const externalApiUrl =
+        "https://spatashamba-api-production.up.railway.app/api/v1/ussd";
       const text_data = data.text.split("*");
       console.log(text_data);
       const landData = {
