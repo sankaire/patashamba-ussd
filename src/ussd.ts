@@ -30,7 +30,7 @@ export default async (req: Request, res: Response) => {
     if (currentStep < questions.length) {
       response = `CON ${questions[currentStep]}`;
       state[questions[currentStep]] = true;
-      await redis.set(phoneNumber, JSON.stringify(state));
+      await redis.set(phoneNumber, JSON.stringify(state), "EX", 150);
     } else {
       const externalApiUrl = process.env.API_URL as string;
       const text_data = data.text.split("*");
